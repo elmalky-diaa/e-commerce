@@ -79,7 +79,9 @@
               >
                 <div class="p-4 sm:p-5">
                   <div class="flex gap-4 sm:gap-6">
-                    <a class="relative shrink-0 group" href="/products/6428eb43dc1175abc65ca0b3"
+                    <a
+                      [routerLink]="['/product-details/', cart.product._id]"
+                      class="relative shrink-0 group"
                       ><div
                         class="w-28 h-28 sm:w-32 sm:h-32 rounded-xl bg-linear-to-br from-gray-50 via-white to-gray-100 p-3 border border-gray-100 overflow-hidden"
                       >
@@ -98,7 +100,9 @@
                     >
                     <div class="flex-1 min-w-0 flex flex-col">
                       <div class="mb-3">
-                        <a class="group/title" href="/products/6428eb43dc1175abc65ca0b3"
+                        <a
+                          [routerLink]="['/product-details/', cart.product._id]"
+                          class="group/title"
                           ><h3
                             class="font-semibold text-gray-900 group-hover/title:text-primary-600 transition-colors leading-relaxed text-base sm:text-lg"
                           >
