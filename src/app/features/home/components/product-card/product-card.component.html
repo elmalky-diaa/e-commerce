@@ -1,0 +1,74 @@
+<div
+  id="product-card"
+  class="bg-white border border-gray-200 rounded-lg overflow-hidden transition-all duration-500 ease-out hover:-translate-y-[5px] hover:shadow-lg"
+  style="
+    box-shadow:
+      rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+      rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+    transform: none;
+  "
+>
+  <div class="relative">
+    <img
+      class="w-full h-60 object-contain bg-white"
+      [src]="product().imageCover"
+      [alt]="product().title"
+    />
+    <div class="absolute top-3 right-3 flex flex-col space-y-2">
+      <button
+        (click)="toggleWishList(product()._id)"
+        class="bg-white h-8 w-8 cursor-pointer rounded-full flex items-center justify-center transition shadow-sm text-gray-600 hover:text-red-500"
+        title="Add to wishlist"
+        tabindex="0"
+      >
+        <i
+          [class]="isInWishList(product()._id) ? 'text-red-500' : 'text-gray-500'"
+          class="fa fa-heart"
+        ></i></button
+      ><button
+        class="bg-white h-8 w-8 rounded-full flex items-center justify-center text-gray-600 hover:text-primary-600 shadow-sm"
+      >
+        <i class="fa fa-arrows-rotate"></i></button
+      ><a
+        [routerLink]="['/product-details/', product()._id]"
+        class="bg-white h-8 w-8 rounded-full flex items-center justify-center text-gray-600 hover:text-primary-600 shadow-sm"
+      >
+        <i class="fa fa-eye"></i>
+      </a>
+    </div>
+  </div>
+  <div class="p-4">
+    <div class="text-xs text-gray-500 mb-1">{{ product().category.name }}</div>
+    <h3 class="font-medium mb-1 cursor-pointer" [title]="product().title">
+      <a class="line-clamp-2" [href]="product()._id">{{ product().title }}</a>
+    </h3>
+    <div class="flex items-center mb-2">
+      <div class="flex text-amber-400 mr-2">
+        <div class="text-yellow-400">
+          @for (star of stars; track star) {
+            <i
+              class="fa-star"
+              [class.fas]="product().ratingsAverage >= star"
+              [class.far]="product().ratingsAverage < star"
+            ></i>
+          }
+        </div>
+      </div>
+      <span class="text-xs text-gray-500"
+        >{{ product().ratingsAverage }} ({{ product().ratingsQuantity }})</span
+      >
+    </div>
+    <div class="flex items-center justify-between">
+      <div>
+        <span class="text-lg font-bold text-gray-800">{{ product().price }} EGP</span>
+      </div>
+      <button
+        (click)="addToProduct(product()._id)"
+        class="h-10 w-10 cursor-pointer rounded-full flex items-center justify-center transition bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-70"
+        tabindex="0"
+      >
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+  </div>
+</div>

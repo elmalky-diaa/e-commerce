@@ -1,0 +1,182 @@
+<div class="container py-16 mx-auto px-4" id="login-section">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+    <div class="hidden lg:block">
+      <div class="text-center space-y-6">
+        <img
+          class="w-full h-96 object-cover rounded-2xl shadow-lg"
+          alt="fresh vegetables and fruits shopping cart illustration, modern clean style, green theme"
+          src="https://storage.googleapis.com/uxpilot-auth.appspot.com/2e5810ff3e-e750761ebcd4ae5907db.png"
+        />
+        <div class="space-y-4">
+          <h2 class="text-3xl font-bold text-gray-800">
+            FreshCart - Your One-Stop Shop for Fresh Products
+          </h2>
+          <p class="text-lg text-gray-600">
+            Join thousands of happy customers who trust FreshCart for their daily grocery needs
+          </p>
+          <div class="flex items-center justify-center space-x-8 text-sm text-gray-500">
+            <div class="flex items-center">
+              <i class="fas fa-truck text-primary-600 mr-2"></i>
+              Free Delivery
+            </div>
+            <div class="flex items-center">
+              <i class="fas fa-shield-alt text-primary-600 mr-2"></i>
+              Secure Payment
+            </div>
+            <div class="flex items-center">
+              <i class="fas fa-undo text-primary-600 mr-2"></i>
+              24/7 Support
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full">
+      <div class="bg-white rounded-2xl shadow-xl p-8 lg:p-12">
+        <div class="text-center mb-8">
+          <div class="flex items-center justify-center mb-4">
+            <span class="text-3xl font-bold text-primary-600"
+              >Fresh<span class="text-gray-800">Cart</span></span
+            >
+          </div>
+          <h1 class="text-2xl font-bold text-gray-800 mb-2">Welcome Back!</h1>
+          <p class="text-gray-600">Sign in to continue your fresh shopping experience</p>
+        </div>
+
+        <div class="space-y-3 mb-6">
+          <button
+            type="button"
+            class="w-full flex items-center justify-center gap-3 py-3 px-4 border-2 border-gray-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition-all duration-200"
+          >
+            <i class="fab fa-google text-red-500 text-lg"></i>
+            <span class="font-medium text-gray-700">Continue with Google</span>
+          </button>
+          <button
+            type="button"
+            class="w-full flex items-center justify-center gap-3 py-3 px-4 border-2 border-gray-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition-all duration-200"
+          >
+            <i class="fab fa-facebook text-blue-600 text-lg"></i>
+            <span class="font-medium text-gray-700">Continue with Facebook</span>
+          </button>
+        </div>
+
+        <div class="relative my-6">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-200"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-4 bg-white text-gray-500 font-medium">OR CONTINUE WITH EMAIL</span>
+          </div>
+        </div>
+
+        @if (msError()) {
+          <div class="p-4 mb-4 text-sm text-red-800 rounded-xl bg-red-50 border border-red-200">
+            <i class="fas fa-exclamation-circle mr-2"></i> {{ msError() }}
+          </div>
+        }
+
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-6">
+          <div>
+            <label for="email" class="block text-sm font-semibold text-gray-700 mb-2"
+              >Email Address</label
+            >
+            <div class="relative">
+              <input
+                formControlName="email"
+                class="w-full px-4 py-3 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100 transition-all"
+                [class.border-red-500]="
+                  loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+                "
+                placeholder="Enter your email"
+                id="email"
+                type="email"
+              />
+              <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+            @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+              <div class="text-red-500 text-xs mt-1 px-1">
+                @if (loginForm.get('email')?.errors?.['required']) {
+                  <span>Email is required.</span>
+                }
+                @if (loginForm.get('email')?.errors?.['email']) {
+                  <span>Please enter a valid email address.</span>
+                }
+              </div>
+            }
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label for="password" class="block text-sm font-semibold text-gray-700"
+                >Password</label
+              >
+              <a
+                class="text-sm text-primary-600 hover:text-primary-700 cursor-pointer font-medium"
+                routerLink="/forget-pass"
+                >Forgot Password?</a
+              >
+            </div>
+            <div class="relative">
+              <input
+                formControlName="password"
+                id="password"
+                class="w-full px-4 py-3 pl-12 pr-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100 transition-all"
+                [class.border-red-500]="
+                  loginForm.get('password')?.invalid && loginForm.get('password')?.touched
+                "
+                placeholder="Enter your password"
+                type="password"
+              />
+              <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+            @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+              <div class="text-red-500 text-xs mt-1 px-1">
+                <span>Password is required.</span>
+              </div>
+            }
+          </div>
+
+          <div class="flex items-center justify-between">
+            <label class="flex items-center">
+              <input
+                class="h-4 w-4 text-primary-600 accent-primary-600 border-2 border-gray-300 rounded focus:ring-primary-500"
+                type="checkbox"
+              />
+              <span class="ml-3 text-sm text-gray-700">Keep me signed in</span>
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            [disabled]="loginForm.invalid || loading()"
+            class="w-full cursor-pointer bg-primary-600 text-white py-3 px-4 rounded-xl hover:bg-primary-700 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            @if (loading()) {
+              <i class="fas fa-spinner fa-spin"></i> Signing In...
+            } @else {
+              Sign In
+            }
+          </button>
+        </form>
+
+        <div class="text-center mt-8 pt-6 border-t border-gray-100">
+          <p class="text-gray-600">
+            New to FreshCart?
+            <a
+              routerLink="/register"
+              class="text-primary-600 hover:text-primary-700 ms-2 font-semibold cursor-pointer"
+              >Create an account</a
+            >
+          </p>
+        </div>
+
+        <div class="flex items-center justify-center space-x-6 mt-6 text-xs text-gray-500">
+          <div class="flex items-center"><i class="fas fa-lock mr-1"></i> SSL Secured</div>
+          <div class="flex items-center"><i class="fas fa-users mr-1"></i> 50K+ Users</div>
+          <div class="flex items-center"><i class="fas fa-star mr-1"></i> 4.9 Rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

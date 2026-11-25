@@ -1,0 +1,179 @@
+<!-- Slider -->
+
+<swiper-container
+  class="mySwiper"
+  navigation="true"
+  [pagination]="{ clickable: true }"
+  loop="true"
+  keyboard="true"
+  mousewheel="true"
+  css-mode="true"
+  style="--swiper-navigation-color: #007a00; --swiper-navigation-size: 10px"
+>
+  <swiper-slide
+    ><div
+      class="h-100 flex items-center justify-center"
+      style="
+        background-image: url('images/home-slider-1.png');
+        background-size: cover;
+        background-position: center center;
+      "
+    >
+      <div
+        class="overlay py-20 text-white p-4 w-full h-full bg-linear-to-r from-green-500/90 to-green-400/50"
+      >
+        <div class="container h-full content-center">
+          <h2
+            class="text-white text-3xl font-bold mb-4 max-w-96"
+            style="opacity: 1; transform: none"
+          >
+            Fresh Products Delivered to your Door
+          </h2>
+          <p style="opacity: 1; transform: none">Get 20% off your first order</p>
+          <div class="mt-4" style="opacity: 1; transform: none">
+            <a
+              routerLink="/shop"
+              class="btn bg-white border-2 cursor-pointer border-white/50 text-green-500 inline-block px-6 py-2 rounded-lg font-semibold hover:scale-105 transition-transform"
+              >Shop Now</a
+            ><a
+              class="btn bg-transparent border-2 border-white/50 text-white ml-2 inline-block px-6 py-2 rounded-lg font-semibold hover:scale-105 transition-transform"
+              >View Deals</a
+            >
+          </div>
+        </div>
+      </div>
+    </div></swiper-slide
+  >
+  <swiper-slide
+    ><div
+      class="h-100 flex items-center justify-center"
+      style="
+        background-image: url('images/home-slider-1.png');
+        background-size: cover;
+        background-position: center center;
+      "
+    >
+      <div
+        class="overlay py-20 text-white p-4 w-full h-full bg-linear-to-r from-green-500/90 to-green-400/50"
+      >
+        <div class="container h-full content-center">
+          <h2 class="text-white text-3xl font-bold mb-4 max-w-96">Premium Quality Guaranteed</h2>
+          <p>Fresh from farm to your table</p>
+          <div class="mt-4">
+            <a
+              routerLink="/shop"
+              class="btn bg-white border-2 cursor-pointer border-white/50 text-blue-500"
+              >Shop Now</a
+            ><a class="btn bg-transparent border-2 border-white/50 text-white ml-2">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div></swiper-slide
+  >
+  <swiper-slide
+    ><div
+      class="h-100 flex items-center justify-center"
+      style="
+        background-image: url('images/home-slider-1.png');
+        background-size: cover;
+        background-position: center center;
+      "
+    >
+      <div
+        class="overlay py-20 text-white p-4 w-full h-full bg-linear-to-r from-green-500/90 to-green-400/50"
+      >
+        <div class="container h-full content-center">
+          <h2 class="text-white text-3xl font-bold mb-4 max-w-96">Fast &amp; Free Delivery</h2>
+          <p>Same day delivery available</p>
+          <div class="mt-4">
+            <a
+              routerLink="/shop"
+              class="btn bg-white border-2 cursor-pointer border-white/50 text-purple-500"
+              >Order Now</a
+            ><a class="btn bg-transparent border-2 border-white/50 text-white ml-2"
+              >Delivery Info</a
+            >
+          </div>
+        </div>
+      </div>
+    </div></swiper-slide
+  >
+</swiper-container>
+
+<!-- OverView -->
+<!-- Category -->
+<section id="categories" class="py-10">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-8">
+      <div class="flex items-center gap-3 my-8">
+        <div class="h-8 w-1.5 bg-linear-to-b from-emerald-500 to-emerald-700 rounded-full"></div>
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
+          Shop By <span class="text-emerald-600">Category</span>
+        </h2>
+      </div>
+      <a
+        routerLink="/categories"
+        class="text-primary-600 self-end sm:self-auto hover:text-primary-700 font-medium flex items-center cursor-pointer"
+        >View All Categories
+        <i class="fas fa-arrow-right ml-2" style="font-size: 0.8rem"></i>
+      </a>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      @for (cat of categoriesList(); track cat._id) {
+        <a
+          [routerLink]="['/shop']"
+          [queryParams]="{ category: cat._id }"
+          class="bg-white rounded-lg p-4 text-center shadow-sm hover:shadow-md transition group cursor-pointer"
+          ><div
+            class="h-20 w-20 overflow-hidden bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-primary-200 transition"
+          >
+            <img
+              [alt]="cat.name"
+              width="300"
+              height="300"
+              decoding="async"
+              data-nimg="1"
+              class="w-full h-full object-cover"
+              [src]="cat.image"
+              style="color: transparent"
+            />
+          </div>
+          <h3 class="font-medium">{{ cat.name }}</h3>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+<!-- offers -->
+<app-offers></app-offers>
+
+<!-- Featured Products -->
+<div class="container mx-auto">
+  <!-- Title -->
+  <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-8">
+    <div class="flex items-center gap-3 my-8">
+      <div class="h-8 w-1.5 bg-linear-to-b from-emerald-500 to-emerald-700 rounded-full"></div>
+      <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
+        Shop By <span class="text-emerald-600">Category</span>
+      </h2>
+    </div>
+    <a
+      routerLink="/shop"
+      class="text-primary-600 cursor-pointer self-end sm:self-auto hover:text-primary-700 font-medium flex items-center"
+      >View All Product
+      <i class="fas fa-arrow-right ml-2" style="font-size: 0.8rem"></i>
+    </a>
+  </div>
+  <!-- Products -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <!-- Card -->
+    @for (product of productList().slice(0, 15); track product._id) {
+      <app-product-card [product]="product"></app-product-card>
+    }
+  </div>
+</div>
+
+<!-- NewsLetter -->
+<app-news-letter></app-news-letter>
+<!-- OverView -->
+<app-over-view></app-over-view>

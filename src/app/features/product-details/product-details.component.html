@@ -1,0 +1,380 @@
+<main class="mx-auto max-w-7xl px-4 py-5 sm:py-7">
+  <nav aria-label="Breadcrumb" class="mb-4 flex flex-wrap items-center gap-2 text-xs text-gray-500">
+    <a routerLink="/home" class="hover:text-primary-600">Home</a>
+    <i class="fa-solid fa-chevron-right text-[9px]" aria-hidden="true"></i>
+    @if (productData(); as product) {
+      <a routerLink="/shop" class="hover:text-primary-600">{{ product.category.name }}</a>
+      <i class="fa-solid fa-chevron-right text-[9px]" aria-hidden="true"></i>
+      <span class="max-w-48 truncate text-gray-400">{{ product.title }}</span>
+    } @else {
+      <span class="text-gray-400">Product details</span>
+    }
+  </nav>
+
+  @if (isLoading()) {
+    <div class="grid min-h-72 place-items-center rounded-lg border border-gray-200 bg-white">
+      <p class="text-sm text-gray-500">
+        <i class="fa-solid fa-spinner fa-spin mr-2 text-primary-600" aria-hidden="true"></i>
+        Loading product...
+      </p>
+    </div>
+  } @else if (errorMessage()) {
+    <div role="alert" class="rounded-lg border border-red-100 bg-red-50 px-5 py-8 text-center">
+      <p class="text-sm font-medium text-red-700">{{ errorMessage() }}</p>
+      <a routerLink="/shop" class="mt-3 inline-block text-sm text-primary-700 hover:underline">
+        Continue shopping
+      </a>
+    </div>
+  } @else if (productData(); as product) {
+    <section
+      class="grid gap-5 rounded-lg border border-gray-200 bg-white p-4 sm:p-6 lg:grid-cols-2"
+    >
+      <div class="min-w-0">
+        <div
+          class="product-gallery relative flex aspect-square max-h-[460px] items-center justify-center overflow-hidden rounded-md bg-gray-50"
+        >
+          @if (activeImage(); as image) {
+            <img
+              [src]="image"
+              [alt]="product.title"
+              class="h-full w-full object-contain p-5 sm:p-8"
+            />
+            @if (galleryImages().length > 1) {
+              <button
+                type="button"
+                aria-label="Previous product image"
+                class="gallery-arrow left-3"
+                (click)="showPreviousImage()"
+              >
+                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+              </button>
+              <button
+                type="button"
+                aria-label="Next product image"
+                class="gallery-arrow right-3"
+                (click)="showNextImage()"
+              >
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+              </button>
+              <span
+                class="absolute bottom-3 right-3 rounded-full bg-white/90 px-2.5 py-1 text-[11px] text-gray-600"
+              >
+                {{ activeImageIndex() + 1 }} / {{ galleryImages().length }}
+              </span>
+            }
+          } @else {
+            <span class="text-sm text-gray-400">No product image available</span>
+          }
+        </div>
+
+        @if (galleryImages().length > 1) {
+          <div class="mt-3 flex gap-2 overflow-x-auto pb-1" aria-label="Product image thumbnails">
+            @for (image of galleryImages(); track image; let index = $index) {
+              <button
+                type="button"
+                class="gallery-thumbnail"
+                [class.gallery-thumbnail-active]="activeImageIndex() === index"
+                [attr.aria-label]="'Show product image ' + (index + 1)"
+                [attr.aria-pressed]="activeImageIndex() === index"
+                (click)="selectImage(index)"
+              >
+                <img [src]="image" [alt]="product.title + ' view ' + (index + 1)" />
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="flex min-w-0 flex-col justify-between">
+        <div>
+          <div class="mb-2 flex items-center gap-2 text-xs">
+            <span class="rounded bg-primary-50 px-2 py-1 font-medium text-primary-700">
+              {{ product.category.name }}
+            </span>
+            @if (product.brand?.name) {
+              <span class="text-gray-400">{{ product.brand.name }}</span>
+            }
+          </div>
+
+          <h1 class="text-xl font-bold text-gray-900 sm:text-2xl">{{ product.title }}</h1>
+
+          <div class="mt-2 flex items-center gap-2">
+            <div class="flex gap-0.5 text-sm text-amber-400" aria-label="Product rating">
+              @for (star of stars; track star) {
+                <i
+                  class="fa-star"
+                  [class.fa-solid]="product.ratingsAverage >= star"
+                  [class.fa-regular]="product.ratingsAverage < star"
+                  aria-hidden="true"
+                ></i>
+              }
+            </div>
+            <span class="text-xs text-gray-500">
+              {{ product.ratingsAverage }} ({{ product.ratingsQuantity }} reviews)
+            </span>
+          </div>
+
+          <div class="mt-3">
+            <p class="text-2xl font-bold text-gray-900">{{ product.price }} EGP</p>
+            <p
+              class="mt-1 text-xs font-medium"
+              [class.text-primary-700]="product.quantity > 0"
+              [class.text-red-600]="product.quantity <= 0"
+            >
+              <i class="fa-solid fa-circle mr-1 text-[7px]" aria-hidden="true"></i>
+              {{ product.quantity > 0 ? 'In stock' : 'Out of stock' }}
+            </p>
+          </div>
+
+          <p class="mt-4 border-y border-gray-100 py-3 text-xs leading-5 text-gray-600">
+            {{ product.description }}
+          </p>
+
+          <div class="mt-4">
+            <p class="mb-2 text-xs font-medium text-gray-700">Quantity</p>
+            <div class="flex items-center gap-3">
+              <div class="flex h-8 items-center overflow-hidden rounded border border-gray-300">
+                <button
+                  type="button"
+                  aria-label="Decrease quantity"
+                  class="h-full w-9 text-gray-600 hover:bg-gray-100 disabled:opacity-40"
+                  [disabled]="quantity() <= 1"
+                  (click)="decreaseQuantity()"
+                >
+                  −
+                </button>
+                <span class="min-w-9 text-center text-xs">{{ quantity() }}</span>
+                <button
+                  type="button"
+                  aria-label="Increase quantity"
+                  class="h-full w-9 text-gray-600 hover:bg-gray-100 disabled:opacity-40"
+                  [disabled]="quantity() >= product.quantity"
+                  (click)="increaseQuantity()"
+                >
+                  +
+                </button>
+              </div>
+              <span class="text-[11px] text-gray-400">{{ product.quantity }} available</span>
+            </div>
+          </div>
+
+          <div class="mt-4 flex items-center justify-between border-t border-gray-100 pt-3">
+            <span class="text-xs text-gray-500">Total price:</span>
+            <span class="text-sm font-bold text-primary-700"
+              >{{ totalPrice().toFixed(2) }} EGP</span
+            >
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <div class="grid gap-2 sm:grid-cols-2">
+            <button
+              (click)="addToProduct(product._id)"
+              type="button"
+              class="flex items-center cursor-pointer justify-center gap-2 rounded-md bg-primary-600 px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+              Add to cart
+            </button>
+            <button
+              type="button"
+              class="flex items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+              [disabled]="product.quantity <= 0"
+            >
+              <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+              Buy now
+            </button>
+          </div>
+          <div class="mt-2 flex items-center justify-between border-t border-gray-100 pt-2">
+            <button
+              type="button"
+              class="flex items-center gap-2 text-xs text-gray-600 hover:text-red-500"
+            >
+              <i class="fa-regular fa-heart" aria-hidden="true"></i>
+              Add to wishlist
+            </button>
+            <button
+              type="button"
+              aria-label="Share product"
+              class="grid h-7 w-7 place-items-center rounded border border-gray-200 text-gray-500 hover:text-primary-700"
+            >
+              <i class="fa-solid fa-share-nodes text-xs" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      aria-label="Shopping benefits"
+      class="mt-3 grid gap-3 rounded-lg border border-gray-100 bg-white p-3 sm:grid-cols-3"
+    >
+      <div class="flex items-center gap-2">
+        <span
+          class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-primary-50 text-xs text-primary-600"
+        >
+          <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
+        </span>
+        <div>
+          <p class="text-[11px] font-semibold text-gray-800">Free delivery</p>
+          <p class="text-[10px] text-gray-500">On orders over 500 EGP</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span
+          class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-primary-50 text-xs text-primary-600"
+        >
+          <i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i>
+        </span>
+        <div>
+          <p class="text-[11px] font-semibold text-gray-800">30-day returns</p>
+          <p class="text-[10px] text-gray-500">Money back guarantee</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span
+          class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-primary-50 text-xs text-primary-600"
+        >
+          <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+        </span>
+        <div>
+          <p class="text-[11px] font-semibold text-gray-800">Secure payment</p>
+          <p class="text-[10px] text-gray-500">100% protected</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-4 overflow-hidden rounded-lg border border-gray-200 bg-white">
+      <div class="flex gap-5 border-b border-gray-200 px-4 sm:px-6">
+        <button
+          type="button"
+          class="detail-tab"
+          [class.detail-tab-active]="activeTab() === 'details'"
+          (click)="activeTab.set('details')"
+        >
+          Product details
+        </button>
+        <button
+          type="button"
+          class="detail-tab"
+          [class.detail-tab-active]="activeTab() === 'reviews'"
+          (click)="activeTab.set('reviews')"
+        >
+          Reviews ({{ product.ratingsQuantity }})
+        </button>
+        <button
+          type="button"
+          class="detail-tab"
+          [class.detail-tab-active]="activeTab() === 'shipping'"
+          (click)="activeTab.set('shipping')"
+        >
+          Shipping &amp; returns
+        </button>
+      </div>
+      <div class="p-4 sm:p-5">
+        @if (activeTab() === 'details') {
+          <h2 class="text-xs font-semibold text-gray-900">About this product</h2>
+          <p class="mt-2 text-xs leading-5 text-gray-600">{{ product.description }}</p>
+          <div class="mt-3 grid gap-3 rounded-md bg-gray-50 p-3 text-[11px] sm:grid-cols-2">
+            <div class="space-y-1.5 text-gray-600">
+              <p>
+                <span class="font-medium text-gray-800">Category:</span> {{ product.category.name }}
+              </p>
+              <p>
+                <span class="font-medium text-gray-800">Brand:</span>
+                {{ product.brand?.name || '—' }}
+              </p>
+              <p><span class="font-medium text-gray-800">Items sold:</span> {{ product.sold }}</p>
+            </div>
+            <div class="space-y-1.5 text-primary-700">
+              <p>
+                <i class="fa-solid fa-check mr-1.5" aria-hidden="true"></i>Premium quality product
+              </p>
+              <p>
+                <i class="fa-solid fa-check mr-1.5" aria-hidden="true"></i>Fast, secure packaging
+              </p>
+              <p><i class="fa-solid fa-check mr-1.5" aria-hidden="true"></i>Quality tested</p>
+            </div>
+          </div>
+        } @else if (activeTab() === 'reviews') {
+          <div class="flex items-center gap-3">
+            <span class="text-2xl font-bold text-gray-900">{{ product.ratingsAverage }}</span>
+            <div>
+              <div class="flex gap-0.5 text-xs text-amber-400" aria-hidden="true">
+                @for (star of stars; track star) {
+                  <i
+                    class="fa-star"
+                    [class.fa-solid]="product.ratingsAverage >= star"
+                    [class.fa-regular]="product.ratingsAverage < star"
+                  ></i>
+                }
+              </div>
+              <p class="mt-1 text-[11px] text-gray-500">
+                Based on {{ product.ratingsQuantity }} reviews
+              </p>
+            </div>
+          </div>
+        } @else {
+          <h2 class="text-xs font-semibold text-gray-900">Shipping &amp; returns</h2>
+          <p class="mt-2 text-xs leading-5 text-gray-600">
+            Delivery options and estimated arrival times are shown at checkout. Eligible items may
+            be returned within 30 days.
+          </p>
+        }
+      </div>
+    </section>
+
+    @if (recommendationsError()) {
+      <p role="status" class="mt-4 text-xs text-gray-500">{{ recommendationsError() }}</p>
+    } @else if (recommendations().length) {
+      <section class="mt-5">
+        <div class="mb-3 flex items-center justify-between">
+          <h2 class="border-l-2 border-primary-600 pl-2 text-sm font-bold text-gray-900">
+            You may also like
+          </h2>
+          <div class="flex gap-1.5">
+            <button
+              type="button"
+              aria-label="Previous recommended products"
+              class="grid h-7 w-7 place-items-center rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50"
+              (click)="scrollRecommendations(recommendationsTrack, -1)"
+            >
+              <i class="fa-solid fa-chevron-left text-[10px]" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              aria-label="Next recommended products"
+              class="grid h-7 w-7 place-items-center rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50"
+              (click)="scrollRecommendations(recommendationsTrack, 1)"
+            >
+              <i class="fa-solid fa-chevron-right text-[10px]" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div #recommendationsTrack class="flex snap-x gap-2.5 overflow-x-auto pb-2">
+          @for (recommended of recommendations(); track recommended._id) {
+            <a
+              [routerLink]="['/product-details', recommended._id]"
+              class="w-36 shrink-0 snap-start overflow-hidden rounded-md border border-gray-200 bg-white transition hover:shadow-md sm:w-44"
+            >
+              <img
+                [src]="recommended.imageCover"
+                [alt]="recommended.title"
+                class="aspect-square w-full bg-gray-50 object-contain p-2"
+              />
+              <div class="p-2">
+                <p class="truncate text-[10px] text-gray-500">{{ recommended.category.name }}</p>
+                <p class="mt-1 line-clamp-2 min-h-7 text-[11px] font-medium text-gray-800">
+                  {{ recommended.title }}
+                </p>
+                <p class="mt-1.5 text-[11px] font-bold text-gray-900">
+                  {{ recommended.price }} EGP
+                </p>
+              </div>
+            </a>
+          }
+        </div>
+      </section>
+    }
+  }
+</main>

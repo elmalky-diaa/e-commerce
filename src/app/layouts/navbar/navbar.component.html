@@ -1,0 +1,314 @@
+<div class="hidden lg:block text-sm border-b border-gray-100">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center h-10">
+      <div class="flex items-center gap-6 text-gray-500">
+        <span class="flex items-center gap-2">
+          <i class="fa fa-truck text-primary text-xs"></i>
+          <span>Free Shipping on Orders 500 EGP</span></span
+        ><span class="flex items-center gap-2">
+          <i class="fa fa-gift text-primary text-xs"></i>
+          <span>New Arrivals Daily</span></span
+        >
+      </div>
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-4 text-gray-500">
+          <a
+            href="tel:+18001234567"
+            class="flex items-center gap-1.5 hover:text-primary-600 transition-colors"
+          >
+            <i class="fa fa-phone text-primary text-xs"></i>
+            <span>+1 (800) 123-4567</span></a
+          ><a
+            href="mailto:support@freshcart.com"
+            class="flex items-center gap-1.5 hover:text-primary-600 transition-colors"
+          >
+            <i class="fa fa-envelope text-primary text-xs"></i>
+            <span>support@freshcart.com</span></a
+          >
+        </div>
+        <span class="w-px h-4 bg-gray-200"></span>
+        <div class="flex items-center gap-4">
+          @if (!isLogged()) {
+            <a
+              routerLink="/login"
+              class="flex items-center gap-1.5 text-gray-600 hover:text-primary-600 transition-colors"
+            >
+              <i class="fa fa-user text-primary text-xs"></i>
+              <span>Sign In</span></a
+            ><a
+              routerLink="/register"
+              class="flex items-center gap-1.5 text-gray-600 hover:text-primary-600 transition-colors"
+            >
+              <i class="fa fa-user-plus text-primary text-xs"></i>
+              <span>Sign Up</span></a
+            >
+          } @else {
+            <a
+              class="flex items-center gap-1.5 text-gray-600 hover:text-primary-600 transition-colors"
+              href="/profile"
+            >
+              <i class="far fa-user text-xs"></i>
+              <span>{{ userName() }}</span></a
+            >
+            <a
+              (click)="signOut()"
+              class="flex cursor-pointer items-center gap-1.5 text-gray-600 hover:text-red-600 transition-colors"
+            >
+              <i class="fas fa-right-from-bracket text-xs"></i>
+
+              <span>Sign Out</span></a
+            >
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<header class="sticky top-0 z-40 bg-white shadow-sm">
+  <div class="bg-white">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between h-16 lg:h-18 gap-4 lg:gap-8">
+        <a class="shrink-0" routerLink="/"
+          ><img
+            alt="FreshCart"
+            loading="lazy"
+            width="160"
+            height="31"
+            decoding="async"
+            data-nimg="1"
+            class="h-6 lg:h-8 w-auto"
+            style="color: transparent"
+            src="images/freshcart-logo.svg"
+        /></a>
+        <form class="hidden lg:flex flex-1 max-w-2xl">
+          <div class="relative w-full">
+            <input
+              type="text"
+              placeholder="Search for products, brands and more..."
+              class="w-full px-5 py-3 pr-12 rounded-full border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-sm"
+              value=""
+            /><button
+              type="submit"
+              class="absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-700 transition-colors"
+            >
+              <i class="fa fa-magnifying-glass text-sm"></i>
+            </button>
+          </div>
+        </form>
+        <nav class="hidden xl:flex items-center gap-6">
+          <a routerLink="/" class="text-gray-700 hover:text-primary font-medium transition-colors"
+            >Home</a
+          ><a
+            routerLink="/shop"
+            class="text-gray-700 hover:text-primary font-medium transition-colors"
+            >Shop</a
+          >
+          <div class="relative group">
+            <button
+              class="flex items-center gap-1.5 text-gray-700 hover:text-primary-600 font-medium transition-colors py-2"
+            >
+              Categories
+              <i class="fa-chevron-down text-2xs transition-transform group-hover:rotate-180"></i>
+              <svg
+                data-prefix="fas"
+                data-icon="chevron-down"
+                class="svg-inline--fa fa-chevron-down text-2xs transition-transform group-hover:rotate-180"
+                role="img"
+                viewBox="0 0 448 512"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M201.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 338.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                ></path>
+              </svg>
+            </button>
+            <div
+              class="absolute top-full left-0 pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
+            >
+              <div class="bg-white border border-gray-100 rounded-xl shadow-xl py-2 min-w-50">
+                <a
+                  routerLink="/categories"
+                  class="block px-4 py-2.5 text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
+                  >All Categories</a
+                ><a
+                  [routerLink]="['/shop']"
+                  [queryParams]="{ category: '6439d2d167d9aa4ca970649f' }"
+                  class="block px-4 py-2.5 text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
+                  >Electronics</a
+                ><a
+                  [routerLink]="['/shop']"
+                  [queryParams]="{ category: '6439d58a0049ad0b52b9003f' }"
+                  class="block px-4 py-2.5 text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
+                  >Women's Fashion</a
+                ><a
+                  [routerLink]="['/shop']"
+                  [queryParams]="{ category: '6439d5b90049ad0b52b90048' }"
+                  class="block px-4 py-2.5 text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
+                  >Men's Fashion</a
+                ><a
+                  [routerLink]="['/shop']"
+                  [queryParams]="{ category: '6439d30b67d9aa4ca97064b1' }"
+                  class="block px-4 py-2.5 text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
+                  >Beauty &amp; Health</a
+                >
+              </div>
+            </div>
+          </div>
+          <a
+            routerLink="/brands"
+            class="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+            >Brands</a
+          >
+        </nav>
+        <div class="flex items-center gap-1 lg:gap-2">
+          <a
+            class="hidden lg:flex items-center gap-2 pr-3 mr-2 border-r border-gray-200 hover:opacity-80 transition-opacity"
+            href="/contact"
+            ><div class="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center">
+              <i class="fas fa-headset text-primary"></i>
+            </div>
+            <div class="text-xs">
+              <div class="text-gray-400">Support</div>
+              <div class="font-semibold text-gray-700">24/7 Help</div>
+            </div></a
+          ><a
+            routerLink="/wishlist"
+            class="relative p-2.5 rounded-full hover:bg-gray-100 transition-colors group"
+            title="Wishlist"
+          >
+            <i
+              class="fas fa-heart text-xl text-gray-500 group-hover:text-primary transition-colors"
+            ></i>
+            @if (isLogged()) {
+              <span
+                class="absolute top-0.5 right-0.5 size-4.5 rounded-full bg-red-500 text-white text-2xs font-bold flex items-center justify-center ring-2 ring-white"
+                >{{ wishListBadge() }}</span
+              >
+            }</a
+          ><a
+            routerLink="/cart"
+            class="relative p-2.5 rounded-full hover:bg-gray-100 transition-colors group"
+            title="Cart"
+          >
+            <i
+              class="fas fa-cart-shopping text-xl text-gray-500 group-hover:text-primary transition-colors"
+            ></i>
+            @if (isLogged()) {
+              <span
+                class="absolute top-0.5 right-0.5 size-4.5 rounded-full bg-primary-600 text-white text-2xs font-bold flex items-center justify-center ring-2 ring-white"
+                >{{ cartBadge() }}</span
+              >
+            }
+          </a>
+          @if (isLogged()) {
+            <div class="lg:block relative group">
+              <button
+                class="relative p-2.5 rounded-full hover:bg-gray-100 transition-colors"
+                title="Account"
+              >
+                <i
+                  class="far fa-circle-user text-xl text-gray-500 group-hover:text-primary-600 transition-colors"
+                ></i>
+              </button>
+
+              <div
+                class="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-100 rounded-2xl shadow-xl transition-all duration-200 origin-top-right opacity-0 scale-95 invisible group-hover:opacity-100 group-hover:scale-100 group-hover:visible z-50"
+              >
+                <div class="p-4 border-b border-gray-100">
+                  <div class="flex items-center gap-3">
+                    <div
+                      class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center shrink-0"
+                    >
+                      <svg
+                        data-prefix="far "
+                        data-icon="circle-user"
+                        class="w-5 h-5 text-primary-600"
+                        role="img"
+                        viewBox="0 0 512 512"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm0 464c-35.1 0-67.7-9.4-96-25.6 13.9-32 46.1-54.4 84-54.4h24c37.9 0 70.1 22.4 84 54.4-28.3 16.2-60.9 25.6-96 25.6zm132.3-51.2C364.5 367.6 313.4 336 256 336h-24c-57.4 0-108.5 31.6-132.3 76.8C65.5 372.4 48 316.2 48 256c0-114.7 93.3-208 208-208s208 93.3 208 208c0 60.2-17.5 116.4-51.7 156.8zM256 128c-44.1 0-80 35.9-80 80s35.9 80 80 80 80-35.9 80-80-35.9-80-80-80zm0 112c-17.6 0-32-14.4-32-32s14.4-32 32-32 32 14.4 32 32-14.4 32-32 32z"
+                        ></path>
+                      </svg>
+                    </div>
+                    <div class="min-w-0">
+                      <p class="text-sm font-semibold text-gray-800 truncate">{{ userName() }}</p>
+                      <p class="text-xs text-gray-500 truncate">{{ userEmail() }}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="py-2">
+                  <a
+                    routerLink="/address"
+                    class="flex items-center gap-3 px-4 py-2 text-sm font-medium text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
+                  >
+                    <i class="far fa-user w-4 text-gray-400 text-center"></i>
+                    <span>My Profile</span>
+                  </a>
+
+                  <a
+                    routerLink="allorders"
+                    class="flex items-center gap-3 px-4 py-2 text-sm font-medium text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
+                  >
+                    <i class="fas fa-box-open w-4 text-gray-400 text-center"></i>
+                    <span>My Orders</span>
+                  </a>
+
+                  <a
+                    routerLink="/wishlist"
+                    class="flex items-center gap-3 px-4 py-2 text-sm font-medium text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
+                  >
+                    <i class="far fa-heart w-4 text-gray-400 text-center"></i>
+                    <span>My Wishlist</span>
+                  </a>
+
+                  <a
+                    routerLink="/address"
+                    class="flex items-center gap-3 px-4 py-2 text-sm font-medium text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
+                  >
+                    <i class="far fa-address-book w-4 text-gray-400 text-center"></i>
+                    <span>Addresses</span>
+                  </a>
+
+                  <a
+                    routerLink="/address"
+                    class="flex items-center gap-3 px-4 py-2 text-sm font-medium text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
+                  >
+                    <i class="fas fa-gear w-4 text-gray-400 text-center"></i>
+                    <span>Settings</span>
+                  </a>
+
+                  <hr class="my-1 border-gray-100" />
+
+                  <a
+                    (click)="signOut()"
+                    class="flex cursor-pointer items-center gap-3 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+                  >
+                    <i class="fas fa-right-from-bracket w-4 text-red-400 text-center"></i>
+                    <span>Sign Out</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          } @else {
+            <a
+              routerLink="/login"
+              class="hidden lg:flex items-center gap-2 ml-2 px-5 py-2.5 rounded-full bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold transition-colors shadow-sm shadow-primary-600/20"
+            >
+              <i class="fas fa-user text-sm text-white"></i>
+              Sign In</a
+            ><button
+              class="lg:hidden ml-1 w-10 h-10 rounded-full bg-primary-600 hover:bg-primary-700 text-white flex items-center justify-center transition-colors"
+            >
+              <i class="fas fa-bars"></i>
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
