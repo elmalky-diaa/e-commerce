@@ -103,4 +103,10 @@ export const routes: Routes = [
       import('./features/user-address/user-address.component').then((m) => m.UserAddressComponent),
     title: 'freshCart : Wishlist',
   },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./features/not-found/not-found.component').then((m) => m.NotFoundComponent),
+    title: 'freshCart : NotFound',
+  },
 ];
