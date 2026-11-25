@@ -1,16 +1,39 @@
 .mySwiper::part(button-next),
 .mySwiper::part(button-prev) {
-
-    background-color: #ffffff !important;
-    width: 50px !important;
-    height: 50px !important;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    color: #16a34a !important;
+    width: 44px !important;
+    height: 44px !important;
     border-radius: 50% !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+    padding: 13px !important;
+    box-sizing: border-box !important;
+    transition: all 0.25s ease;
 }
 
-.mySwiper::part(button-next)::after,
-.mySwiper::part(button-prev)::after {
+.mySwiper::part(button-next):hover,
+.mySwiper::part(button-prev):hover {
+    background-color: #ffffff !important;
+    transform: scale(1.08);
+}
 
-    font-size: 14px !important;
-    line-height: 1 !important;
+.mySwiper::part(button-prev) {
+    left: 24px !important;
+}
+
+.mySwiper::part(button-next) {
+    right: 24px !important;
+}
+
+.mySwiper::part(bullet) {
+    background-color: rgba(255, 255, 255, 0.6) !important;
+    opacity: 1 !important;
+}
+
+.mySwiper::part(bullet-active) {
+    background-color: #ffffff !important;
+    width: 22px !important;
+    border-radius: 999px !important;
+    transition: width 0.3s ease;
 }
